@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Analytics Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F7F8FC;
+        }
+        .apexcharts-tooltip {
+            background: #fff;
+            color: #374151;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .sidebar-active {
+            color: #2563EB;
+            background-color: #EFF6FF;
+            border-left: 3px solid #2563EB;
+            font-weight: 600;
+        }
+         /* For custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 6px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+<div class="flex h-screen bg-[#F7F8FC]">
+    <!-- Left Sidebar -->
+    <aside class="w-64 bg-white flex flex-col p-4 border-r">
+        <div class="flex items-center space-x-3 px-2 py-4">
+            <div class="p-2 bg-blue-600 rounded-lg">
+                <i data-lucide="bar-chart-3" class="text-white w-6 h-6"></i>
+            </div>
+            <h1 class="text-xl font-bold text-gray-800">CRM Cube</h1>
+        </div>
+
+        <nav class="flex-1 mt-8 space-y-2">
+            <p class="px-4 text-sm font-semibold text-gray-400 uppercase">Managements</p>
+            <a href="#" class="flex items-center px-4 py-2.5 text-gray-600 sidebar-active">
+                <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
+                Overview
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
+                <i data-lucide="pie-chart" class="w-5 h-5 mr-3"></i>
+                Statistics
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
+                <i data-lucide="users" class="w-5 h-5 mr-3"></i>
+                Customers
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
+                <i data-lucide="shopping-bag" class="w-5 h-5 mr-3"></i>
+                Products
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
+                <i data-lucide="gem" class="w-5 h-5 mr-3"></i>
+                CLV Analysis
+            </a>
+        </nav>
+
+        <div class="pb-4">
+            <div class="bg-blue-50 p-4 rounded-lg text-sm text-center">
+                <p class="font-bold text-blue-800">High-Risk Customers</p>
+                <p class="text-blue-600 my-1">There are <span class="font-bold">892</span> customers at risk of churn.</p>
+                <button class="mt-2 w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 text-xs">Check Now</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <main class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header -->
+        <header class="bg-white px-8 py-4 flex justify-between items-center border-b">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">CRM Overview</h2>
+                <p class="text-sm text-gray-500">Welcome back, Marketing Team!</p>
+            </div>
+            <div class="flex items-center space-x-6">
+                <button class="p-2 text-gray-500 hover:text-blue-600 rounded-full hover:bg-gray-100">
+                    <i data-lucide="bell" class="w-6 h-6"></i>
+                </button>
+                <div class="flex items-center space-x-3">
+                    <img src="https://placehold.co/40x40/E2E8F0/4A5568?text=M" alt="avatar" class="w-10 h-10 rounded-full">
+                    <div>
+                        <p class="font-semibold text-sm">Barly Vallendito</p>
+                        <p class="text-xs text-gray-500">Admin Manager</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Scrollable Content Area -->
+        <div class="flex-1 flex overflow-hidden">
+            <div class="flex-1 p-8 overflow-y-auto">
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="flex items-center p-5 bg-white rounded-xl shadow-sm">
+                        <div class="p-3 bg-green-100 rounded-lg"><i data-lucide="users" class="w-6 h-6 text-green-600"></i></div>
+                        <div class="ml-4">
+                            <p class="text-sm text-gray-500">Total Customers</p>
+                            <p class="text-2xl font-bold text-gray-800">24,908</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-5 bg-white rounded-xl shadow-sm">
+                        <div class="p-3 bg-orange-100 rounded-lg"><i data-lucide="gem" class="w-6 h-6 text-orange-600"></i></div>
+                        <div class="ml-4">
+                            <p class="text-sm text-gray-500">CLV Top Tier</p>
+                            <p class="text-2xl font-bold text-gray-800">5,408</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-5 bg-white rounded-xl shadow-sm">
+                        <div class="p-3 bg-blue-100 rounded-lg"><i data-lucide="radio-tower" class="w-6 h-6 text-blue-600"></i></div>
+                        <div class="ml-4">
+                            <p class="text-sm text-gray-500">Active Campaigns</p>
+                            <p class="text-2xl font-bold text-gray-800">1,420</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Chart -->
+                <div class="bg-white p-6 mt-8 rounded-xl shadow-sm">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold text-gray-800">Customer Engagement Statistics</h3>
+                        <div class="flex space-x-1 p-1 bg-gray-100 rounded-lg">
+                            <button class="px-3 py-1 text-sm font-semibold text-white bg-blue-600 rounded-md">Month</button>
+                            <button class="px-3 py-1 text-sm font-semibold text-gray-600 hover:bg-gray-200 rounded-md">Weekly</button>
+                        </div>
+                    </div>
+                    <div id="main-line-chart" class="w-full h-80"></div>
+                </div>
+
+                <!-- Bottom Cards -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Customer by Group</h3>
+                        <div id="group-donut-chart" class="h-48"></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Top Customer by Value</h3>
+                        <div id="value-donut-chart" class="h-48"></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Marketing Division</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="p-2 bg-green-100 rounded-lg"><i data-lucide="mail" class="w-5 h-5 text-green-600"></i></div>
+                                <div>
+                                    <p class="font-semibold">Email Marketing</p>
+                                    <p class="text-sm text-gray-500">Open: 09:00 - 17:00 AM</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="p-2 bg-blue-100 rounded-lg"><i data-lucide="smartphone" class="w-5 h-5 text-blue-600"></i></div>
+                                <div>
+                                    <p class="font-semibold">Social Media Ads</p>
+                                    <p class="text-sm text-gray-500">Open: 07:00 - 11:30 AM</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="p-2 bg-orange-100 rounded-lg"><i data-lucide="radio" class="w-5 h-5 text-orange-600"></i></div>
+                                <div>
+                                    <p class="font-semibold">Content Marketing</p>
+                                    <p class="text-sm text-gray-500">Open: 07:00 - 11:00 AM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Information Sidebar -->
+            <aside class="w-80 bg-white p-6 border-l overflow-y-auto">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-gray-800">Informations</h3>
+                    <button class="p-1 text-gray-400 hover:text-gray-600"><i data-lucide="more-horizontal" class="w-5 h-5"></i></button>
+                </div>
+
+                <!-- Calendar -->
+                <div class="mt-4">
+                    <div class="flex justify-between items-center text-sm font-semibold">
+                        <button class="p-1 hover:bg-gray-100 rounded-full"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                        <span>October, 2025</span>
+                        <button class="p-1 hover:bg-gray-100 rounded-full"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                    </div>
+                    <div class="grid grid-cols-7 gap-2 text-center text-xs mt-3">
+                        <span class="text-gray-400">Sun</span><span class="text-gray-400">Mon</span><span class="text-gray-400">Tue</span><span class="text-gray-400">Wed</span><span class="text-gray-400">Thu</span><span class="text-gray-400">Fri</span><span class="text-gray-400">Sat</span>
+                        <span class="py-1"></span><span class="py-1"></span><span class="py-1"></span><span class="font-bold py-1 text-blue-600 bg-blue-100 rounded-full">1</span><span class="py-1">2</span><span class="py-1">3</span><span class="py-1">4</span>
+                        <span class="py-1">5</span><span class="py-1">6</span><span class="py-1">7</span><span class="py-1">8</span><span class="py-1">9</span><span class="py-1">10</span><span class="py-1">11</span>
+                        <!-- more dates -->
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-bold text-gray-800 mt-8 mb-4">High-Risk Customer List</h3>
+                <div class="space-y-3">
+                    <div class="flex p-3 bg-blue-50 rounded-lg">
+                        <div class="p-2 bg-blue-200 rounded-lg h-fit"><i data-lucide="user-check" class="w-5 h-5 text-blue-700"></i></div>
+                        <div class="ml-3 flex-1">
+                            <p class="font-semibold text-sm">John Doe (ID: 1234)</p>
+                            <p class="text-xs text-gray-500">Churn Score: 92% | CLV: $5,230</p>
+                        </div>
+                        <button class="p-1 text-blue-600 hover:bg-blue-100 rounded-full self-center"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+                    </div>
+                    <div class="flex p-3 bg-red-50 rounded-lg">
+                        <div class="p-2 bg-red-200 rounded-lg h-fit"><i data-lucide="user-x" class="w-5 h-5 text-red-700"></i></div>
+                        <div class="ml-3 flex-1">
+                            <p class="font-semibold text-sm">Jane Smith (ID: 5678)</p>
+                            <p class="text-xs text-gray-500">Churn Score: 88% | CLV: $8,910</p>
+                        </div>
+                        <button class="p-1 text-red-600 hover:bg-red-100 rounded-full self-center"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+</div>
+<script th:inline="none">
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+
+        // Main Line Chart
+        const mainLineChartOptions = {
+            series: [{
+                name: 'New Customers',
+                data: [31, 40, 28, 51, 42, 109, 100, 110, 90, 80, 70, 60]
+            }, {
+                name: 'Churned Customers',
+                data: [11, 32, 45, 32, 34, 52, 41, 50, 40, 35, 30, 25]
+            }],
+            chart: {
+                height: '100%',
+                type: 'area',
+                toolbar: { show: false },
+                fontFamily: 'Inter, sans-serif'
+            },
+            dataLabels: { enabled: false },
+            stroke: { curve: 'smooth', width: 2 },
+            colors: ['#3B82F6', '#60A5FA'],
+            xaxis: {
+                type: 'category',
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                labels: { style: { colors: '#9CA3AF' } },
+                axisBorder: { show: false },
+                axisTicks: { show: false }
+            },
+            yaxis: {
+                 labels: { style: { colors: '#9CA3AF' } }
+            },
+            grid: {
+                borderColor: '#F3F4F6',
+                strokeDashArray: 4
+            },
+            tooltip: { x: { format: 'MMM' } },
+            legend: { horizontalAlign: 'right' }
+        };
+        const mainLineChart = new ApexCharts(document.querySelector("#main-line-chart"), mainLineChartOptions);
+        mainLineChart.render();
+
+        // Donut Chart function
+        function createDonutChart(selector, series, colors, labels) {
+             const options = {
+                series: series,
+                chart: {
+                    type: 'donut',
+                    height: '100%'
+                },
+                labels: labels,
+                colors: colors,
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: '75%',
+                            labels: {
+                                show: true,
+                                total: {
+                                    show: true,
+                                    label: 'Total',
+                                    fontSize: '16px',
+                                    fontWeight: 600,
+                                }
+                            }
+                        }
+                    }
+                },
+                dataLabels: { enabled: false },
+                legend: {
+                    position: 'bottom',
+                    formatter: function(seriesName, opts) {
+                        return [seriesName, " - ", opts.w.globals.series[opts.seriesIndex]]
+                    }
+                },
+            };
+            const chart = new ApexCharts(document.querySelector(selector), options);
+            chart.render();
+        }
+
+        createDonutChart('#group-donut-chart', [44, 55, 13, 33], ['#3B82F6', '#60A5FA', '#93C5FD', '#BFDBFE'], ["Elderly", "Adult", "Child", "Teen"]);
+        createDonutChart('#value-donut-chart', [70, 30], ['#10B981', '#A7F3D0'], ["High Value", "Low Value"]);
+    });
+</script>
+
+</body>
+</html>
+
