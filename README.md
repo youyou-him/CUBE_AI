@@ -46,7 +46,7 @@
 | 구분 | 기술 | 구현 기능 및 특징 |
 | :--- | :--- | :--- |
 | **Frontend** | `HTML5`, `CSS`, `JavaScript` | 사용자 친화적인 대시보드 레이아웃 구현 및 UI 설계 |
-| **CSS Framework** | **Tailwind CSS** | [cite\_start]반응형 웹 디자인 및 빠르고 일관된 모듈 기반 스타일링 적용  |
+| **CSS Framework** | **Tailwind CSS** | 반응형 웹 디자인 및 빠르고 일관된 모듈 기반 스타일링 적용  |
 | **Chart Library** | **ApexCharts (JavaScript)** | CLTV, 이탈률, 세그먼트별 현황 등을 **동적으로 시각화**. 특히 **도넛 차트(Donut Chart)의 Total 값 기능**을 커스텀하여 세그먼트별 비율을 직관적으로 확인 가능하게 함. |
 | **Template Engine** | `Thymeleaf` | 백엔드 데이터와의 동적 바인딩을 위한 HTML 템플릿 처리 |
 
