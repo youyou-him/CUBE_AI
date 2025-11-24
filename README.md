@@ -1,4 +1,4 @@
-# 📈 데이터 기반 고객 이탈 예측 및 마케팅 인사이트 도출
+# 데이터 기반 고객 이탈 예측 및 마케팅 인사이트 도출
 
 [](https://www.google.com/search?q=https://)
 [](https://www.google.com/search?q=https://)
