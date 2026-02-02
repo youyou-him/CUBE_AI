@@ -46,23 +46,19 @@
 
         <nav class="flex-1 mt-8 space-y-2">
             <p class="px-4 text-sm font-semibold text-gray-400 uppercase">Managements</p>
-            <a href="#" class="flex items-center px-4 py-2.5 text-gray-600 sidebar-active">
+            <a th:href="@{/overview}" class="flex items-center px-4 py-2.5 text-gray-600 sidebar-active">
                 <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
                 Overview
             </a>
-            <a href="#" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
-                <i data-lucide="pie-chart" class="w-5 h-5 mr-3"></i>
-                Statistics
+            <a th:href="@{/reviews}" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
+                <i data-lucide="message-circle" class="w-5 h-5 mr-3"></i>
+                Review Analysis
             </a>
-            <a href="#" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
-                <i data-lucide="users" class="w-5 h-5 mr-3"></i>
-                Customers
+            <a th:href="@{/recommendations(customerId='00012a2ce6f8dcda20d059ce98491703')}" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
+                <i data-lucide="star" class="w-5 h-5 mr-3"></i>
+                Recommendations
             </a>
-            <a href="#" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
-                <i data-lucide="shopping-bag" class="w-5 h-5 mr-3"></i>
-                Products
-            </a>
-            <a href="#" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
+            <a th:href="@{/clv-analysis}" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
                 <i data-lucide="gem" class="w-5 h-5 mr-3"></i>
                 CLV Analysis
             </a>
@@ -103,26 +99,40 @@
         <div class="flex-1 flex overflow-hidden">
             <div class="flex-1 p-8 overflow-y-auto">
                 <!-- KPI Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
                     <div class="flex items-center p-5 bg-white rounded-xl shadow-sm">
-                        <div class="p-3 bg-green-100 rounded-lg"><i data-lucide="users" class="w-6 h-6 text-green-600"></i></div>
+                        <div class="p-3 bg-blue-100 rounded-full"><i data-lucide="users" class="w-6 h-6 text-blue-600"></i></div>
                         <div class="ml-4">
-                            <p class="text-sm text-gray-500">Total Customers</p>
-                            <p class="text-2xl font-bold text-gray-800">24,908</p>
+                            <p class="text-sm text-gray-500">총 고객 수</p>
+                            <p class="text-2xl font-bold text-gray-800" th:text="${#numbers.formatInteger(overviewData.totalCustomers, 0, 'COMMA')}">96,096</p>
                         </div>
                     </div>
                     <div class="flex items-center p-5 bg-white rounded-xl shadow-sm">
-                        <div class="p-3 bg-orange-100 rounded-lg"><i data-lucide="gem" class="w-6 h-6 text-orange-600"></i></div>
+                        <div class="p-3 bg-green-100 rounded-full"><i data-lucide="dollar-sign" class="w-6 h-6 text-green-600"></i></div>
                         <div class="ml-4">
-                            <p class="text-sm text-gray-500">CLV Top Tier</p>
-                            <p class="text-2xl font-bold text-gray-800">5,408</p>
+                            <p class="text-sm text-gray-500">총 매출액</p>
+                            <p class="text-2xl font-bold text-gray-800" th:text="'R$ ' + ${#numbers.formatInteger(overviewData.totalRevenue, 0, 'COMMA')}">13,591,644</p>
                         </div>
                     </div>
                     <div class="flex items-center p-5 bg-white rounded-xl shadow-sm">
-                        <div class="p-3 bg-blue-100 rounded-lg"><i data-lucide="radio-tower" class="w-6 h-6 text-blue-600"></i></div>
+                        <div class="p-3 bg-yellow-100 rounded-full"><i data-lucide="star" class="w-6 h-6 text-yellow-600"></i></div>
                         <div class="ml-4">
-                            <p class="text-sm text-gray-500">Active Campaigns</p>
-                            <p class="text-2xl font-bold text-gray-800">1,420</p>
+                            <p class="text-sm text-gray-500">평균 예측 CLV</p>
+                            <p class="text-2xl font-bold text-gray-800" th:text="'R$ 28'">R$ 2,898</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-5 bg-white rounded-xl shadow-sm">
+                        <div class="p-3 bg-red-100 rounded-full"><i data-lucide="smile" class="w-6 h-6 text-red-600"></i></div>
+                        <div class="ml-4">
+                            <p class="text-sm text-gray-500">평균 리뷰 점수</p>
+                            <p class="text-2xl font-bold text-gray-800" th:text="${#numbers.formatDecimal(overviewData.averageReviewScore, 1, 2)} + ' / 5'">4.08 / 5</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-5 bg-white rounded-xl shadow-sm">
+                        <div class="p-3 bg-purple-100 rounded-full"><i data-lucide="shopping-cart" class="w-6 h-6 text-purple-600"></i></div>
+                        <div class="ml-4">
+                            <p class="text-sm text-gray-500">평균 주문 금액</p>
+                            <p class="text-2xl font-bold text-gray-800" th:text="'R$ ' + ${#numbers.formatDecimal(overviewData.averageOrderValue, 1, 2)}">R$ 137.65</p>
                         </div>
                     </div>
                 </div>
@@ -139,15 +149,15 @@
                     <div id="main-line-chart" class="w-full h-80"></div>
                 </div>
 
-                <!-- Bottom Cards -->
+                <!-- 🚨🚨🚨 핵심 수정: 하단 카드 섹션 하드코딩된 데이터로 변경 🚨🚨🚨 -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
                     <div class="bg-white p-6 rounded-xl shadow-sm">
-                        <h3 class="text-lg font-bold text-gray-800 mb-4">Customer by Group</h3>
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">그룹별 고객 분포</h3>
                         <div id="group-donut-chart" class="h-48"></div>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-sm">
-                        <h3 class="text-lg font-bold text-gray-800 mb-4">Top Customer by Value</h3>
-                        <div id="value-donut-chart" class="h-48"></div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">상위 1% 고객 매출 기여도</h3>
+                        <div id="revenue-pie-chart" class="h-48"></div>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-sm">
                         <h3 class="text-lg font-bold text-gray-800 mb-4">Marketing Division</h3>
@@ -166,13 +176,6 @@
                                     <p class="text-sm text-gray-500">Open: 07:00 - 11:30 AM</p>
                                 </div>
                             </div>
-                            <div class="flex items-center space-x-3">
-                                <div class="p-2 bg-orange-100 rounded-lg"><i data-lucide="radio" class="w-5 h-5 text-orange-600"></i></div>
-                                <div>
-                                    <p class="font-semibold">Content Marketing</p>
-                                    <p class="text-sm text-gray-500">Open: 07:00 - 11:00 AM</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -184,96 +187,108 @@
                     <h3 class="text-lg font-bold text-gray-800">Informations</h3>
                     <button class="p-1 text-gray-400 hover:text-gray-600"><i data-lucide="more-horizontal" class="w-5 h-5"></i></button>
                 </div>
-
-                <!-- Calendar -->
                 <div class="mt-4">
-                    <div class="flex justify-between items-center text-sm font-semibold">
-                        <button class="p-1 hover:bg-gray-100 rounded-full"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
-                        <span>October, 2025</span>
-                        <button class="p-1 hover:bg-gray-100 rounded-full"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
-                    </div>
-                    <div class="grid grid-cols-7 gap-2 text-center text-xs mt-3">
-                        <span class="text-gray-400">Sun</span><span class="text-gray-400">Mon</span><span class="text-gray-400">Tue</span><span class="text-gray-400">Wed</span><span class="text-gray-400">Thu</span><span class="text-gray-400">Fri</span><span class="text-gray-400">Sat</span>
-                        <span class="py-1"></span><span class="py-1"></span><span class="py-1"></span><span class="font-bold py-1 text-blue-600 bg-blue-100 rounded-full">1</span><span class="py-1">2</span><span class="py-1">3</span><span class="py-1">4</span>
-                        <span class="py-1">5</span><span class="py-1">6</span><span class="py-1">7</span><span class="py-1">8</span><span class="py-1">9</span><span class="py-1">10</span><span class="py-1">11</span>
-                        <!-- more dates -->
-                    </div>
+                    <!-- Calendar remains static -->
                 </div>
 
-                <h3 class="text-lg font-bold text-gray-800 mt-8 mb-4">High-Risk Customer List</h3>
+                <!-- 🚨🚨🚨 핵심 수정: 고위험 고객 목록 하드코딩 🚨🚨🚨 -->
+                <h3 class="text-lg font-bold text-gray-800 mt-8 mb-4">고위험 고객 Top 5</h3>
                 <div class="space-y-3">
-                    <div class="flex p-3 bg-blue-50 rounded-lg">
-                        <div class="p-2 bg-blue-200 rounded-lg h-fit"><i data-lucide="user-check" class="w-5 h-5 text-blue-700"></i></div>
+                    <div class="flex p-3 bg-red-50 rounded-lg">
+                        <div class="p-2 bg-red-200 rounded-lg h-fit"><i data-lucide="user-x" class="w-5 h-5 text-red-700"></i></div>
                         <div class="ml-3 flex-1">
-                            <p class="font-semibold text-sm">John Doe (ID: 1234)</p>
-                            <p class="text-xs text-gray-500">Churn Score: 92% | CLV: $5,230</p>
+                            <p class="font-semibold text-sm truncate" title="c866f2d72403b263b655519ab0d56c07">c866f2d...</p>
+                            <p class="text-xs text-gray-500">🚨 긴급 복구 대상 | CLV: 350</p>
                         </div>
-                        <button class="p-1 text-blue-600 hover:bg-blue-100 rounded-full self-center"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+                        <a th:href="@{/recommendations(customerId='c866f2d72403b263b655519ab0d56c07')}" class="p-1 text-red-600 hover:bg-red-100 rounded-full self-center">
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
                     </div>
                     <div class="flex p-3 bg-red-50 rounded-lg">
                         <div class="p-2 bg-red-200 rounded-lg h-fit"><i data-lucide="user-x" class="w-5 h-5 text-red-700"></i></div>
                         <div class="ml-3 flex-1">
-                            <p class="font-semibold text-sm">Jane Smith (ID: 5678)</p>
-                            <p class="text-xs text-gray-500">Churn Score: 88% | CLV: $8,910</p>
+                            <p class="font-semibold text-sm truncate" title="b2b13de0770e06de50080fea7a536200">b2b13de...</p>
+                            <p class="text-xs text-gray-500">🏃 일반 복구 대상 | CLV: 325</p>
                         </div>
-                        <button class="p-1 text-red-600 hover:bg-red-100 rounded-full self-center"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+                        <a th:href="@{/recommendations(customerId='b2b13de0770e06de50080fea7a536200')}" class="p-1 text-red-600 hover:bg-red-100 rounded-full self-center">
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                    <div class="flex p-3 bg-red-50 rounded-lg">
+                        <div class="p-2 bg-red-200 rounded-lg h-fit"><i data-lucide="user-x" class="w-5 h-5 text-red-700"></i></div>
+                        <div class="ml-3 flex-1">
+                            <p class="font-semibold text-sm truncate" title="d9b8a0de9996452637a284c6c0a37e31">d9b8a0d...</p>
+                            <p class="text-xs text-gray-500">🚨 긴급 복구 대상 | CLV: 310</p>
+                        </div>
+                        <a th:href="@{/recommendations(customerId='d9b8a0de9996452637a284c6c0a37e31')}" class="p-1 text-red-600 hover:bg-red-100 rounded-full self-center">
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                    <div class="flex p-3 bg-red-50 rounded-lg">
+                        <div class="p-2 bg-red-200 rounded-lg h-fit"><i data-lucide="user-x" class="w-5 h-5 text-red-700"></i></div>
+                        <div class="ml-3 flex-1">
+                            <p class="font-semibold text-sm truncate" title="736a541604a35cd3cc07c424076e07e8">736a541...</p>
+                            <p class="text-xs text-gray-500">🏃 일반 복구 대상 | CLV: 298</p>
+                        </div>
+                        <a th:href="@{/recommendations(customerId='736a541604a35cd3cc07c424076e07e8')}" class="p-1 text-red-600 hover:bg-red-100 rounded-full self-center">
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                    <div class="flex p-3 bg-red-50 rounded-lg">
+                        <div class="p-2 bg-red-200 rounded-lg h-fit"><i data-lucide="user-x" class="w-5 h-5 text-red-700"></i></div>
+                        <div class="ml-3 flex-1">
+                            <p class="font-semibold text-sm truncate" title="4a70a4c213f0a539e6a37827b508ca16">4a70a4c...</p>
+                            <p class="text-xs text-gray-500">🚨 긴급 복구 대상 | CLV: 285</p>
+                        </div>
+                        <a th:href="@{/recommendations(customerId='4a70a4c213f0a539e6a37827b508ca16')}" class="p-1 text-red-600 hover:bg-red-100 rounded-full self-center">
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
                     </div>
                 </div>
-
             </aside>
         </div>
     </main>
 </div>
-<script th:inline="none">
+<script th:inline="javascript">
     document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
 
-        // Main Line Chart
-        const mainLineChartOptions = {
-            series: [{
-                name: 'New Customers',
-                data: [31, 40, 28, 51, 42, 109, 100, 110, 90, 80, 70, 60]
-            }, {
-                name: 'Churned Customers',
-                data: [11, 32, 45, 32, 34, 52, 41, 50, 40, 35, 30, 25]
-            }],
-            chart: {
-                height: '100%',
-                type: 'area',
-                toolbar: { show: false },
-                fontFamily: 'Inter, sans-serif'
-            },
-            dataLabels: { enabled: false },
-            stroke: { curve: 'smooth', width: 2 },
-            colors: ['#3B82F6', '#60A5FA'],
-            xaxis: {
-                type: 'category',
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                labels: { style: { colors: '#9CA3AF' } },
-                axisBorder: { show: false },
-                axisTicks: { show: false }
-            },
-            yaxis: {
-                 labels: { style: { colors: '#9CA3AF' } }
-            },
-            grid: {
-                borderColor: '#F3F4F6',
-                strokeDashArray: 4
-            },
-            tooltip: { x: { format: 'MMM' } },
-            legend: { horizontalAlign: 'right' }
-        };
-        const mainLineChart = new ApexCharts(document.querySelector("#main-line-chart"), mainLineChartOptions);
-        mainLineChart.render();
+        // 🚨🚨🚨 핵심 수정: 모든 차트 데이터를 하드코딩 🚨🚨🚨
 
-        // Donut Chart function
-        function createDonutChart(selector, series, colors, labels) {
-             const options = {
-                series: series,
-                chart: {
-                    type: 'donut',
-                    height: '100%'
+        // --- Main Line Chart (하드코딩) ---
+        if (document.querySelector("#main-line-chart")) {
+            const mainLineChartOptions = {
+                series: [{
+                    name: '총 주문 수',
+                    data: [2500, 2800, 3500, 3200, 4000, 4500, 5000, 4800, 5500, 6000, 6800, 7500]
+                }, {
+                    name: '총 고객 수',
+                    data: [2400, 2700, 3300, 3000, 3800, 4200, 4700, 4500, 5200, 5700, 6400, 7100]
+                }],
+                chart: { height: '100%', type: 'area', toolbar: { show: false }, fontFamily: 'Inter, sans-serif' },
+                dataLabels: { enabled: false },
+                stroke: { curve: 'smooth', width: 2 },
+                colors: ['#3B82F6', '#10B981'],
+                xaxis: {
+                    type: 'category',
+                    categories: ['2017-01', '2017-02', '2017-03', '2017-04', '2017-05', '2017-06', '2017-07', '2017-08', '2017-09', '2017-10', '2017-11', '2017-12'],
+                    labels: { style: { colors: '#9CA3AF' } },
+                    axisBorder: { show: false }, axisTicks: { show: false }
                 },
+                yaxis: { labels: { style: { colors: '#9CA3AF' } } },
+                grid: { borderColor: '#F3F4F6', strokeDashArray: 4 },
+                tooltip: { x: { format: 'yyyy-MM' } },
+                legend: { horizontalAlign: 'right' }
+            };
+            const mainLineChart = new ApexCharts(document.querySelector("#main-line-chart"), mainLineChartOptions);
+            mainLineChart.render();
+        }
+
+        // --- 하단 차트 생성 함수 ---
+        function createChart(selector, seriesData, colors, labels, type) {
+             const options = {
+                series: seriesData,
+                chart: { type: type, height: '100%' },
                 labels: labels,
                 colors: colors,
                 plotOptions: {
@@ -284,7 +299,7 @@
                                 show: true,
                                 total: {
                                     show: true,
-                                    label: 'Total',
+                                    label: type === 'donut' ? 'Total' : '',
                                     fontSize: '16px',
                                     fontWeight: 600,
                                 }
@@ -292,20 +307,20 @@
                         }
                     }
                 },
-                dataLabels: { enabled: false },
+                dataLabels: { enabled: true, formatter: (val) => val.toFixed(1) + '%' },
                 legend: {
                     position: 'bottom',
-                    formatter: function(seriesName, opts) {
-                        return [seriesName, " - ", opts.w.globals.series[opts.seriesIndex]]
-                    }
                 },
             };
             const chart = new ApexCharts(document.querySelector(selector), options);
-            chart.render();
+            if (chart) chart.render();
         }
 
-        createDonutChart('#group-donut-chart', [44, 55, 13, 33], ['#3B82F6', '#60A5FA', '#93C5FD', '#BFDBFE'], ["Elderly", "Adult", "Child", "Teen"]);
-        createDonutChart('#value-donut-chart', [70, 30], ['#10B981', '#A7F3D0'], ["High Value", "Low Value"]);
+        // --- 그룹별 고객 분포 차트 (하드코딩) ---
+        createChart('#group-donut-chart', [16.3, 33.8, 34.1, 15.8], ['#3B82F6', '#EF4444', '#F59E0B', '#6B7280'], ["VIP/Loyal", "At-Risk", "Potential", "Inactive"], 'donut');
+
+        // --- 상위 고객 매출 기여도 차트 (하드코딩) ---
+        createChart('#revenue-pie-chart', [45, 55], ['#10B981', '#A7F3D0'], ["Top 1% Customers", "Rest of Customers"], 'pie');
     });
 </script>
 

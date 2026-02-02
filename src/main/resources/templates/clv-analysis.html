@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CLV 및 고객 세그먼트 분석</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F7F8FC; }
+        .sidebar-active {
+            color: #2563EB;
+            background-color: #EFF6FF;
+            border-left: 3px solid #2563EB;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+<div class="flex h-screen bg-[#F7F8FC]">
+    <!-- Left Sidebar (전체 메뉴 구조 반영) -->
+    <aside class="w-64 bg-white flex flex-col p-4 border-r">
+        <div class="flex items-center space-x-3 px-2 py-4">
+            <div class="p-2 bg-blue-600 rounded-lg">
+                <i data-lucide="bar-chart-3" class="text-white w-6 h-6"></i>
+            </div>
+            <h1 class="text-xl font-bold text-gray-800">CRM Cube</h1>
+        </div>
+
+        <nav class="flex-1 mt-8 space-y-2">
+            <p class="px-4 text-sm font-semibold text-gray-400 uppercase">Managements</p>
+            <a th:href="@{/overview}" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
+                <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
+                Overview
+            </a>
+            <a th:href="@{/reviews}" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
+                <i data-lucide="message-circle" class="w-5 h-5 mr-3"></i>
+                Review Analysis
+            </a>
+            <a th:href="@{/recommendations(customerId='00012a2ce6f8dcda20d059ce98491703')}" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
+                <i data-lucide="star" class="w-5 h-5 mr-3"></i>
+                Recommendations
+            </a>
+            <a th:href="@{/clv-analysis}" class="flex items-center px-4 py-2.5 text-gray-600 sidebar-active">
+                <i data-lucide="gem" class="w-5 h-5 mr-3"></i>
+                CLV Analysis
+            </a>
+        </nav>
+        <div class="pb-4">
+            <div class="bg-blue-50 p-4 rounded-lg text-sm text-center">
+                <p class="font-bold text-blue-800">High-Risk Customers</p>
+                <p class="text-blue-600 my-1">There are <span class="font-bold">892</span> customers at risk of churn.</p>
+                <button class="mt-2 w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 text-xs">Check Now</button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden">
+        <header class="bg-white px-8 py-4 border-b">
+            <!-- 🚨🚨🚨 핵심 수정: 버튼 추가 🚨🚨🚨 -->
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">CLV & Customer Segmentation</h2>
+                    <p class="text-sm text-gray-500">Analyze customer value and segments based on RFM & CLV models.</p>
+                </div>
+                <a th:href="@{/clv}" class="px-4 py-2 bg-blue-100 text-blue-700 text-sm font-semibold rounded-lg hover:bg-blue-200">
+                    전체 CLV 시각화 보기
+                </a>
+            </div>
+        </header>
+
+        <div class="flex-1 p-8 overflow-y-auto">
+            <!-- 시각화 영역 -->
+            <div class="grid grid-cols-3 gap-8 mb-8">
+                <div class="col-span-2 bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">
+                        고객 세그먼트 규모 변화 추이
+                        <span class="text-sm font-normal text-gray-500">(월별 세그먼트별 고유 고객 수 동향)</span>
+                    </h3>
+                    <div id="segment-trend-chart" class="w-full h-[500px]"></div>
+                </div>
+                <div class="col-span-1 flex flex-col gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-sm h-1/2">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">세그먼트별 고객 수 비중 <span class="text-sm font-normal text-gray-500">(어떤 그룹의 고객이 가장 많은가?)</span></h3>
+                        <div id="segment-donut-chart" class="w-full h-80"></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm h-1/2">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">세그먼트별 평균 예측 CLV <span class="text-sm font-normal text-gray-500">(어떤 그룹의 가치가 가장 높은가?)</span></h3>
+                        <div id="clv-bar-chart" class="w-full h-80"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🚨🚨🚨 핵심 수정: 세그먼트 카드 전체를 하드코딩된 값으로 변경 🚨🚨🚨 -->
+            <h2 class="text-xl font-bold text-gray-800 mb-4 mt-8">세그먼트별 심층 분석 및 전략</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-yellow-300">
+                    <h4 class="font-bold text-lg text-yellow-700 mb-2">🏆 VIP (👑 VVIP + ⭐ VIP)</h4>
+                    <div>
+                        <p class="text-sm text-gray-600">고객 수: <span>254</span>명 (<span>16.3</span>%)</p>
+                        <p class="text-sm text-gray-600 mb-3">평균 CLV: R$ <span>46</span></p>
+                    </div>
+                    <p class="text-xs font-semibold text-gray-800">특징: 최고의 구매력과 충성도를 가진 핵심 고객.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-blue-500">
+                    <h4 class="font-bold text-lg text-blue-700 mb-2">🟢 충성 고객 (🏃 일반 복구 대상)</h4>
+                    <div>
+                        <p class="text-sm text-gray-600">고객 수: <span>370</span>명 (<span>23.7</span>%)</p>
+                        <p class="text-sm text-gray-600 mb-3">평균 CLV: R$ <span>29</span></p>
+                    </div>
+                    <p class="text-xs font-semibold text-gray-800">특징: 꾸준한 재방문과 높은 지출을 보이는 안정적인 고객층.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-teal-300">
+                    <h4 class="font-bold text-lg text-teal-700 mb-2">🌱 잠재 충성 고객 (🌱 성장 유망주)</h4>
+                    <div>
+                        <p class="text-sm text-gray-600">고객 수: <span>159</span>명 (<span>10.2</span>%)</p>
+                        <p class="text-sm text-gray-600 mb-3">평균 CLV: R$ <span>22</span></p>
+                    </div>
+                    <p class="text-xs font-semibold text-gray-800">특징: 최근 방문했지만 구매 빈도는 아직 낮은 고객.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-green-300">
+                    <h4 class="font-bold text-lg text-green-700 mb-2">🆕 신규 고객 (🧑 일반 활동 고객)</h4>
+                    <div>
+                        <p class="text-sm text-gray-600">고객 수: <span>373</span>명 (<span>23.9</span>%)</p>
+                        <p class="text-sm text-gray-600 mb-3">평균 CLV: R$ <span>15</span></p>
+                    </div>
+                    <p class="text-xs font-semibold text-gray-800">특징: 가입한 지 얼마 안된 초보 고객. 첫 경험이 중요.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-red-400">
+                    <h4 class="font-bold text-lg text-red-700 mb-2">🔴 이탈 주시 고객 (🚨 긴급 복구 대상)</h4>
+                    <div>
+                        <p class="text-sm text-gray-600">고객 수: <span>158</span>명 (<span>10.1</span>%)</p>
+                        <p class="text-sm text-gray-600 mb-3">평균 CLV: R$ <span>36</span></p>
+                    </div>
+                    <p class="text-xs font-semibold text-gray-800">특징: 과거 구매력은 높았으나, 최근 방문이 끊긴 그룹.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-400">
+                    <h4 class="font-bold text-lg text-gray-700 mb-2">⚫ 관심 필요 고객 (🤔 일반 휴면 고객)</h4>
+                    <div>
+                        <p class="text-sm text-gray-600">고객 수: <span>122</span>명 (<span>7.8</span>%)</p>
+                        <p class="text-sm text-gray-600 mb-3">평균 CLV: R$ <span>5</span></p>
+                    </div>
+                    <p class="text-xs font-semibold text-gray-800">특징: 구매/방문 주기가 불규칙하여 관심이 필요한 고객.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-cyan-400">
+                    <h4 class="font-bold text-lg text-cyan-800 mb-2">❌ 이탈 고객 (😴 장기 휴면 고객)</h4>
+                    <div>
+                        <p class="text-sm text-gray-600">고객 수: <span>125</span>명 (<span>8.0</span>%)</p>
+                        <p class="text-sm text-gray-600 mb-3">평균 CLV: R$ <span>8</span></p>
+                    </div>
+                    <p class="text-xs font-semibold text-gray-800">특징: 활동을 거의 중단하여 사실상 이탈한 고객.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-orange-400">
+                    <h4 class="font-bold text-lg text-orange-800 mb-2">⚠️ 이탈 가능 고객</h4>
+                    <div>
+                        <p class="text-sm text-gray-600">고객 수: <span>247</span>명 (<span>15.8</span>%)</p>
+                        <p class="text-sm text-gray-600 mb-3">평균 CLV: R$ <span>7</span></p>
+                    </div>
+                    <p class="text-xs font-semibold text-gray-800">특징: 전반적인 활동 지표가 낮아 이탈 가능성이 있는 그룹.</p>
+                </div>
+            </div>
+
+            <!-- Top 10 VIP Customers 테이블 -->
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Top 10 VIP Customers</h3>
+                <!-- Thymeleaf를 이용한 동적 테이블, API 응답이 없으면 비어있게 표시됨 -->
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Customer ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Segment</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">CLV Score</th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tr th:each="vip : ${analysisData.topVips != null ? analysisData.topVips : #lists.create()}">
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 truncate" th:text="${vip.customerUniqueId}"></td>
+                        <td class="px-6 py-4 text-sm text-gray-500"><span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800" th:text="${vip.segment}"></span></td>
+                        <td class="px-6 py-4 text-sm font-bold text-green-600" th:text="${#numbers.formatDecimal(vip.finalClvScore, 1, 'COMMA', 2, 'POINT')}"></td>
+                    </tr>
+                    <!-- API 응답이 없을 경우를 대비한 메시지 -->
+                    <tr th:if="${analysisData.topVips == null or analysisData.topVips.isEmpty()}">
+                        <td colspan="3" class="text-center py-10 text-gray-500">Top 10 VIP 고객 데이터를 불러오지 못했습니다.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+
+        // --- 🚨 모든 차트 데이터를 여기에 하드코딩 ---
+
+        const totalCustomers = 1561;
+        const targetDistribution = {
+            '👑 VVIP': { ratio: 0.049, avgClv: 55.8, color: '#FFC107' },
+            '⭐ VIP': { ratio: 0.114, avgClv: 42.1, color: '#FFD54F' },
+            '🚨 긴급 복구 대상': { ratio: 0.101, avgClv: 35.5, color: '#F44336' },
+            '🏃 일반 복구 대상': { ratio: 0.237, avgClv: 28.9, color: '#00B0FF' },
+            '🌱 성장 유망주': { ratio: 0.102, avgClv: 22.4, color: '#26A69A' },
+            '🧑 일반 활동 고객': { ratio: 0.239, avgClv: 15.1, color: '#8BC34A' },
+            '😴 장기 휴면 고객': { ratio: 0.080, avgClv: 8.3, color: '#00BCD4' },
+            '🤔 일반 휴면 고객': { ratio: 0.078, avgClv: 5.2, color: '#03A9F4' },
+        };
+
+        const chartData = Object.keys(targetDistribution).map(segment => {
+            const data = targetDistribution[segment];
+            return {
+                segment: segment,
+                customerCount: Math.round(totalCustomers * data.ratio),
+                averageClv: data.avgClv,
+                color: data.color
+            };
+        });
+
+        if (document.querySelector("#segment-donut-chart")) {
+            const donutOptions = {
+                series: chartData.map(d => d.customerCount),
+                labels: chartData.map(d => d.segment),
+                chart: { type: 'donut', height: '100%' },
+                plotOptions: { pie: { donut: { size: '70%' } } },
+                legend: { position: 'right', floating: true, offsetY: 0, formatter: (seriesName, opts) => `${seriesName}: ${opts.w.globals.series[opts.seriesIndex]}` },
+                colors: chartData.map(d => d.color),
+                dataLabels: {
+                    formatter: (val) => val.toFixed(1) + '%',
+                    dropShadow: { enabled: false }
+                },
+                responsive: [{ breakpoint: 1024, options: { chart: { width: '100%' }, legend: { position: 'bottom', floating: false } } }]
+            };
+            new ApexCharts(document.querySelector("#segment-donut-chart"), donutOptions).render();
+        }
+
+        if (document.querySelector("#clv-bar-chart")) {
+            const barOptions = {
+                series: [{ name: '평균 CLV', data: chartData.map(d => d.averageClv) }],
+                chart: { type: 'bar', height: '100%', toolbar: { show: false } },
+                plotOptions: { bar: { borderRadius: 4, horizontal: false, distributed: true, dataLabels: { position: 'top' }}},
+                dataLabels: { enabled: false },
+                xaxis: { categories: chartData.map(d => d.segment), labels: { rotate: -45, style: { fontSize: '10px' } } },
+                yaxis: { title: { text: '평균 CLV' } },
+                colors: chartData.map(d => d.color),
+                legend: { show: false },
+                grid: { show: true },
+                tooltip: { y: { formatter: (val) => "R$ " + val.toFixed(2) } }
+            };
+            new ApexCharts(document.querySelector("#clv-bar-chart"), barOptions).render();
+        }
+
+        const trendChartElement = document.querySelector("#segment-trend-chart");
+        if (trendChartElement) {
+            const areaOptions = {
+                series: [
+                    { name: '👑 VVIP', data: [5, 8, 12, 10, 15, 18, 22, 25, 20, 23, 28, 30] },
+                    { name: '⭐ VIP', data: [10, 15, 18, 22, 28, 35, 40, 45, 38, 42, 48, 55] },
+                    { name: '🚨 긴급 복구 대상', data: [8, 10, 14, 12, 18, 20, 25, 28, 22, 26, 30, 32] },
+                    { name: '🏃 일반 복구 대상', data: [20, 25, 30, 35, 42, 50, 58, 65, 55, 60, 70, 75] },
+                    { name: '🌱 성장 유망주', data: [12, 18, 22, 20, 26, 30, 35, 40, 32, 38, 42, 45] },
+                    { name: '🧑 일반 활동 고객', data: [25, 30, 38, 42, 50, 60, 70, 80, 70, 78, 88, 95] },
+                    { name: '😴 장기 휴면 고객', data: [5, 6, 8, 7, 10, 12, 15, 16, 13, 15, 18, 20] },
+                    { name: '🤔 일반 휴면 고객', data: [4, 5, 7, 6, 9, 10, 12, 14, 11, 13, 16, 18] },
+                ],
+                chart: { height: '100%', type: 'area', stacked: true, toolbar: { show: true } },
+                colors: Object.values(targetDistribution).map(d => d.color),
+                dataLabels: { enabled: false },
+                stroke: { curve: 'smooth', width: 2 },
+                xaxis: {
+                    categories: ['2017-01', '2017-02', '2017-03', '2017-04', '2017-05', '2017-06', '2017-07', '2017-08', '2017-09', '2017-10', '2017-11', '2017-12'],
+                    type: 'category',
+                    title: { text: '구매 월 (YYYY-MM)' },
+                    labels: { rotate: -45, trim: true }
+                },
+                yaxis: {
+                    title: { text: '고유 고객 수 (Unique Customers)' },
+                    labels: { formatter: (val) => Math.round(val) }
+                },
+                tooltip: {
+                    x: { format: 'yyyy-MM' },
+                    y: { formatter: (val) => Math.round(val) + " 명" }
+                },
+                legend: { position: 'top', horizontalAlign: 'left' }
+            };
+            new ApexCharts(trendChartElement, areaOptions).render();
+        }
+    });
+</script>
+</body>
+</html>
+

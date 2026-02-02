@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CLV 세그먼트 심층 분석</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F7F8FC; }
+        .sidebar-active {
+          color: #2563EB;
+          background-color: #EFF6FF;
+          border-left: 3px solid #2563EB;
+          font-weight: 600;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+<div class="flex h-screen bg-[#F7F8FC]">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white flex flex-col p-4 border-r">
+        <div class="flex items-center space-x-3 px-2 py-4">
+            <div class="p-2 bg-blue-600 rounded-lg">
+                <i data-lucide="bar-chart-3" class="text-white w-6 h-6"></i>
+            </div>
+            <h1 class="text-xl font-bold text-gray-800">CRM Cube</h1>
+        </div>
+        <nav class="flex-1 mt-8 space-y-2">
+            <p class="px-4 text-sm font-semibold text-gray-400 uppercase">Managements</p>
+            <a th:href="@{/overview}" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
+                <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>Overview</a>
+            <a th:href="@{/reviews}" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
+                <i data-lucide="message-circle" class="w-5 h-5 mr-3"></i>Review Analysis</a>
+            <a th:href="@{/recommendations(customerId='00012a2ce6f8dcda20d059ce98491703')}" class="flex items-center px-4 py-2.5 text-gray-500 hover:bg-gray-100 rounded-lg">
+                <i data-lucide="star" class="w-5 h-5 mr-3"></i>Recommendations</a>
+            <a th:href="@{/clv-analysis}" class="flex items-center px-4 py-2.5 text-gray-600 sidebar-active">
+                <i data-lucide="gem" class="w-5 h-5 mr-3"></i>CLV Analysis</a>
+        </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 overflow-y-scroll p-8 space-y-12">
+        <h1 class="text-3xl font-bold text-gray-700 mb-6">💎 세그먼트별 CLV 심층 분석 대시보드</h1>
+
+        <!-- 그래프 2열 구성 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            <!-- 1 -->
+            <div class="bg-white p-6 rounded-xl shadow" id="chart1"></div>
+            <div class="bg-white p-6 rounded-xl shadow" id="chart2"></div>
+            <p class="col-span-2 text-center text-gray-500 text-sm">
+                Top 판매자 집중도는 충성도를, 판매자-고객 거리는 지역 기반 구매 경향을 보여줍니다.
+            </p>
+
+            <!-- 2 -->
+            <div class="bg-white p-6 rounded-xl shadow" id="chart3"></div>
+            <div class="bg-white p-6 rounded-xl shadow" id="chart4"></div>
+            <p class="col-span-2 text-center text-gray-500 text-sm">
+                상품 무게와 운송료는 구매 규모 및 물류 비용 패턴을 시각화합니다.
+            </p>
+
+            <!-- 3 -->
+            <div class="bg-white p-6 rounded-xl shadow" id="chart5"></div>
+            <div class="bg-white p-6 rounded-xl shadow" id="chart6"></div>
+            <p class="col-span-2 text-center text-gray-500 text-sm">
+                세그먼트별 결제 수단과 할부 패턴을 통해 소비 성향과 신용 의존도를 분석합니다.
+            </p>
+
+            <!-- 4 -->
+            <div class="bg-white p-6 rounded-xl shadow" id="chart7"></div>
+            <p class="col-span-2 text-center text-gray-500 text-sm">
+                평균 배송 소요 시간은 물류 효율성과 서비스 품질을 반영합니다.
+            </p>
+
+        </div>
+    </main>
+</div>
+
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+
+      const segments = ["👑 VVIP","⭐ VIP","🌱 성장 유망주","🧑 일반 활동 고객","🚨 긴급 복구 대상","🏃 일반 복구 대상","😴 장기 휴면 고객","🤔 일반 휴면 고객"];
+
+      // ① Top 판매자 구매 집중도
+      new ApexCharts(document.querySelector("#chart1"), {
+        chart:{type:"boxPlot",height:320,toolbar:{show:false}},
+        series:[{name:"Top 판매자 집중도",data:segments.map((s,i)=>({x:s,y:[0.3+i*0.05,0.45+i*0.04,0.55+i*0.03,0.7+i*0.02,0.9]}))}],
+        colors:["#0EA5E9"],
+        title:{text:"세그먼트별 Top 판매자 구매 집중도",align:"center"}
+      }).render();
+
+      // ② 평균 판매자-고객 거리
+      new ApexCharts(document.querySelector("#chart2"), {
+        chart:{type:"bar",height:320,toolbar:{show:false}},
+        series:[{name:"평균 거리(km)",data:[0.86,0.72,0.9,0.78,0.93,0.89,0.71,0.82]}],
+        xaxis:{categories:segments,labels:{rotate:-25}},
+        colors:["#F97316"],
+        title:{text:"세그먼트별 평균 판매자-고객 거리 (km)",align:"center"}
+      }).render();
+
+      // ③ 평균 구매 상품 무게
+      new ApexCharts(document.querySelector("#chart3"), {
+        chart:{type:"boxPlot",height:320,toolbar:{show:false}},
+        series:[{name:"평균 구매 상품 무게(g)",data:segments.map((s,i)=>({x:s,y:[800,1500+i*100,2200+i*150,3600+i*200,6000]}))}],
+        colors:["#0D9488"],
+        title:{text:"세그먼트별 평균 구매 상품 무게 (g)",align:"center"}
+      }).render();
+
+      // ④ 평균 운송료
+      new ApexCharts(document.querySelector("#chart4"), {
+        chart:{type:"boxPlot",height:320,toolbar:{show:false}},
+        series:[{name:"평균 운송료 (BRL)",data:segments.map((s,i)=>({x:s,y:[10+i,14+i,18+i,22+i,30+i]}))}],
+        colors:["#E11D48"],
+        title:{text:"세그먼트별 평균 운송료 (BRL)",align:"center"}
+      }).render();
+
+      // ⑤ 세그먼트별 주 결제 수단
+      new ApexCharts(document.querySelector("#chart5"), {
+        chart:{type:"bar",stacked:true,height:320,toolbar:{show:false}},
+        series:[
+          {name:"credit_card",data:[180,190,200,210,205,195,185,190]},
+          {name:"boleto",data:[60,70,80,75,65,60,55,70]},
+          {name:"voucher",data:[20,15,10,10,15,20,25,20]},
+          {name:"debit_card",data:[5,10,5,10,5,10,5,5]}
+        ],
+        xaxis:{categories:segments},
+        colors:["#3B82F6","#F59E0B","#10B981","#EF4444"],
+        title:{text:"세그먼트별 주 결제 수단",align:"center"},
+        legend:{position:"bottom"}
+      }).render();
+
+      // ⑥ 평균 할부 개월 수 (수정된 정상 박스플롯)
+      new ApexCharts(document.querySelector("#chart6"), {
+        chart:{type:"boxPlot",height:320,toolbar:{show:false}},
+        series:[{
+          name:"평균 할부 개월 수",
+          data:[
+            {x:"👑 VVIP",y:[3,5,7,9,11]},
+            {x:"⭐ VIP",y:[2,4,6,8,10]},
+            {x:"🌱 성장 유망주",y:[1,3,5,7,9]},
+            {x:"🧑 일반 활동 고객",y:[2,4,6,8,10]},
+            {x:"🚨 긴급 복구 대상",y:[3,5,7,9,11]},
+            {x:"🏃 일반 복구 대상",y:[2,4,6,8,10]},
+            {x:"😴 장기 휴면 고객",y:[1,3,5,7,9]},
+            {x:"🤔 일반 휴면 고객",y:[2,4,6,8,12]}
+          ]
+        }],
+        colors:["#10B981"],
+        title:{text:"세그먼트별 평균 할부 개월 수",align:"center"},
+        xaxis:{categories:segments}
+      }).render();
+
+      // ⑦ 평균 배송 소요 시간
+      new ApexCharts(document.querySelector("#chart7"), {
+        chart:{type:"boxPlot",height:320,toolbar:{show:false}},
+        series:[{name:"배송 소요 시간(일)",data:segments.map((s,i)=>({x:s,y:[5+i,7+i,10+i,12+i,18+i]}))}],
+        colors:["#6366F1"],
+        title:{text:"세그먼트별 평균 배송 소요 시간 (일)",align:"center"}
+      }).render();
+    });
+</script>
+</body>
+</html>

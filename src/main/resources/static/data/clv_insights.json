@@ -1,0 +1,588 @@
+{
+    "overall_stats": {
+        "avg_review_score": {
+            "mean": 4.08,
+            "median": 5.0,
+            "std": 1.34,
+            "min": 1.0,
+            "max": 5.0
+        },
+        "avg_freight_value": {
+            "mean": 20.23,
+            "median": 16.4,
+            "std": 15.82,
+            "min": 0.0,
+            "max": 409.68
+        },
+        "avg_product_weight_g": {
+            "mean": 2107.21,
+            "median": 700.0,
+            "std": 3742.47,
+            "min": 0.0,
+            "max": 40425.0
+        },
+        "avg_delivery_days": {
+            "mean": 12.1,
+            "median": 10.0,
+            "std": 9.55,
+            "min": 0.0,
+            "max": 209.0
+        },
+        "avg_installments": {
+            "mean": 2.9,
+            "median": 2.0,
+            "std": 2.68,
+            "min": 0.0,
+            "max": 24.0
+        },
+        "total_orders": {
+            "mean": 1.03,
+            "median": 1.0,
+            "std": 0.21,
+            "min": 1,
+            "max": 17
+        }
+    },
+    "segment_summary": [
+        {
+            "Sub_Segment": "⭐ VIP",
+            "avg_review_score_mean": 4.08,
+            "avg_review_score_median": 5.0,
+            "avg_review_score_count": 11954,
+            "avg_freight_value_mean": 20.32,
+            "avg_freight_value_median": 16.6,
+            "avg_freight_value_count": 11945,
+            "avg_product_weight_g_mean": 2121.78,
+            "avg_product_weight_g_median": 700.0,
+            "avg_product_weight_g_count": 11942,
+            "avg_delivery_days_mean": 12.27,
+            "avg_delivery_days_median": 10.0,
+            "avg_delivery_days_count": 11701,
+            "avg_installments_mean": 2.93,
+            "avg_installments_median": 2.0,
+            "avg_installments_count": 12041,
+            "total_orders_mean": 1.03,
+            "total_orders_median": 1.0,
+            "total_orders_count": 12041
+        },
+        {
+            "Sub_Segment": "🌱 성장 유망주",
+            "avg_review_score_mean": 4.09,
+            "avg_review_score_median": 5.0,
+            "avg_review_score_count": 12068,
+            "avg_freight_value_mean": 20.19,
+            "avg_freight_value_median": 16.47,
+            "avg_freight_value_count": 12080,
+            "avg_product_weight_g_mean": 2144.95,
+            "avg_product_weight_g_median": 700.0,
+            "avg_product_weight_g_count": 12076,
+            "avg_delivery_days_mean": 11.94,
+            "avg_delivery_days_median": 10.0,
+            "avg_delivery_days_count": 11791,
+            "avg_installments_mean": 2.92,
+            "avg_installments_median": 2.0,
+            "avg_installments_count": 12156,
+            "total_orders_mean": 1.04,
+            "total_orders_median": 1.0,
+            "total_orders_count": 12156
+        },
+        {
+            "Sub_Segment": "🏃 일반 복구 대상",
+            "avg_review_score_mean": 4.08,
+            "avg_review_score_median": 5.0,
+            "avg_review_score_count": 11960,
+            "avg_freight_value_mean": 20.18,
+            "avg_freight_value_median": 16.32,
+            "avg_freight_value_count": 11974,
+            "avg_product_weight_g_mean": 2111.15,
+            "avg_product_weight_g_median": 700.0,
+            "avg_product_weight_g_count": 11972,
+            "avg_delivery_days_mean": 12.14,
+            "avg_delivery_days_median": 10.0,
+            "avg_delivery_days_count": 11689,
+            "avg_installments_mean": 2.93,
+            "avg_installments_median": 2.0,
+            "avg_installments_count": 12047,
+            "total_orders_mean": 1.04,
+            "total_orders_median": 1.0,
+            "total_orders_count": 12047
+        },
+        {
+            "Sub_Segment": "👑 VVIP",
+            "avg_review_score_mean": 4.09,
+            "avg_review_score_median": 5.0,
+            "avg_review_score_count": 11823,
+            "avg_freight_value_mean": 20.01,
+            "avg_freight_value_median": 16.39,
+            "avg_freight_value_count": 11844,
+            "avg_product_weight_g_mean": 2076.17,
+            "avg_product_weight_g_median": 675.0,
+            "avg_product_weight_g_count": 11844,
+            "avg_delivery_days_mean": 12.03,
+            "avg_delivery_days_median": 10.0,
+            "avg_delivery_days_count": 11601,
+            "avg_installments_mean": 2.89,
+            "avg_installments_median": 2.0,
+            "avg_installments_count": 11922,
+            "total_orders_mean": 1.04,
+            "total_orders_median": 1.0,
+            "total_orders_count": 11923
+        },
+        {
+            "Sub_Segment": "😴 장기 휴면 고객",
+            "avg_review_score_mean": 4.08,
+            "avg_review_score_median": 5.0,
+            "avg_review_score_count": 12063,
+            "avg_freight_value_mean": 20.17,
+            "avg_freight_value_median": 16.39,
+            "avg_freight_value_count": 12050,
+            "avg_product_weight_g_mean": 2081.51,
+            "avg_product_weight_g_median": 700.0,
+            "avg_product_weight_g_count": 12050,
+            "avg_delivery_days_mean": 11.98,
+            "avg_delivery_days_median": 10.0,
+            "avg_delivery_days_count": 11797,
+            "avg_installments_mean": 2.89,
+            "avg_installments_median": 2.0,
+            "avg_installments_count": 12145,
+            "total_orders_mean": 1.03,
+            "total_orders_median": 1.0,
+            "total_orders_count": 12145
+        },
+        {
+            "Sub_Segment": "🚨 긴급 복구 대상",
+            "avg_review_score_mean": 4.09,
+            "avg_review_score_median": 5.0,
+            "avg_review_score_count": 11706,
+            "avg_freight_value_mean": 20.43,
+            "avg_freight_value_median": 16.36,
+            "avg_freight_value_count": 11698,
+            "avg_product_weight_g_mean": 2109.44,
+            "avg_product_weight_g_median": 668.0,
+            "avg_product_weight_g_count": 11697,
+            "avg_delivery_days_mean": 12.21,
+            "avg_delivery_days_median": 10.0,
+            "avg_delivery_days_count": 11474,
+            "avg_installments_mean": 2.87,
+            "avg_installments_median": 2.0,
+            "avg_installments_count": 11793,
+            "total_orders_mean": 1.03,
+            "total_orders_median": 1.0,
+            "total_orders_count": 11793
+        },
+        {
+            "Sub_Segment": "🤔 일반 휴면 고객",
+            "avg_review_score_mean": 4.08,
+            "avg_review_score_median": 5.0,
+            "avg_review_score_count": 11871,
+            "avg_freight_value_mean": 20.21,
+            "avg_freight_value_median": 16.41,
+            "avg_freight_value_count": 11871,
+            "avg_product_weight_g_mean": 2099.71,
+            "avg_product_weight_g_median": 700.0,
+            "avg_product_weight_g_count": 11870,
+            "avg_delivery_days_mean": 12.12,
+            "avg_delivery_days_median": 10.0,
+            "avg_delivery_days_count": 11603,
+            "avg_installments_mean": 2.89,
+            "avg_installments_median": 2.0,
+            "avg_installments_count": 11954,
+            "total_orders_mean": 1.03,
+            "total_orders_median": 1.0,
+            "total_orders_count": 11954
+        },
+        {
+            "Sub_Segment": "🧑 일반 활동 고객",
+            "avg_review_score_mean": 4.08,
+            "avg_review_score_median": 5.0,
+            "avg_review_score_count": 11935,
+            "avg_freight_value_mean": 20.32,
+            "avg_freight_value_median": 16.35,
+            "avg_freight_value_count": 11958,
+            "avg_product_weight_g_mean": 2112.54,
+            "avg_product_weight_g_median": 700.0,
+            "avg_product_weight_g_count": 11956,
+            "avg_delivery_days_mean": 12.14,
+            "avg_delivery_days_median": 10.0,
+            "avg_delivery_days_count": 11700,
+            "avg_installments_mean": 2.89,
+            "avg_installments_median": 2.0,
+            "avg_installments_count": 12037,
+            "total_orders_mean": 1.04,
+            "total_orders_median": 1.0,
+            "total_orders_count": 12037
+        }
+    ],
+    "payment_distribution": [
+        {
+            "Sub_Segment": "⭐ VIP",
+            "main_payment_type": "boleto",
+            "count": 2338,
+            "ratio": 0.194
+        },
+        {
+            "Sub_Segment": "⭐ VIP",
+            "main_payment_type": "credit_card",
+            "count": 9271,
+            "ratio": 0.77
+        },
+        {
+            "Sub_Segment": "⭐ VIP",
+            "main_payment_type": "debit_card",
+            "count": 186,
+            "ratio": 0.015
+        },
+        {
+            "Sub_Segment": "⭐ VIP",
+            "main_payment_type": "voucher",
+            "count": 246,
+            "ratio": 0.02
+        },
+        {
+            "Sub_Segment": "🌱 성장 유망주",
+            "main_payment_type": "boleto",
+            "count": 2414,
+            "ratio": 0.199
+        },
+        {
+            "Sub_Segment": "🌱 성장 유망주",
+            "main_payment_type": "credit_card",
+            "count": 9288,
+            "ratio": 0.764
+        },
+        {
+            "Sub_Segment": "🌱 성장 유망주",
+            "main_payment_type": "debit_card",
+            "count": 213,
+            "ratio": 0.018
+        },
+        {
+            "Sub_Segment": "🌱 성장 유망주",
+            "main_payment_type": "voucher",
+            "count": 241,
+            "ratio": 0.02
+        },
+        {
+            "Sub_Segment": "🏃 일반 복구 대상",
+            "main_payment_type": "boleto",
+            "count": 2405,
+            "ratio": 0.2
+        },
+        {
+            "Sub_Segment": "🏃 일반 복구 대상",
+            "main_payment_type": "credit_card",
+            "count": 9224,
+            "ratio": 0.766
+        },
+        {
+            "Sub_Segment": "🏃 일반 복구 대상",
+            "main_payment_type": "debit_card",
+            "count": 192,
+            "ratio": 0.016
+        },
+        {
+            "Sub_Segment": "🏃 일반 복구 대상",
+            "main_payment_type": "voucher",
+            "count": 226,
+            "ratio": 0.019
+        },
+        {
+            "Sub_Segment": "👑 VVIP",
+            "main_payment_type": "boleto",
+            "count": 2455,
+            "ratio": 0.206
+        },
+        {
+            "Sub_Segment": "👑 VVIP",
+            "main_payment_type": "credit_card",
+            "count": 9088,
+            "ratio": 0.762
+        },
+        {
+            "Sub_Segment": "👑 VVIP",
+            "main_payment_type": "debit_card",
+            "count": 163,
+            "ratio": 0.014
+        },
+        {
+            "Sub_Segment": "👑 VVIP",
+            "main_payment_type": "voucher",
+            "count": 216,
+            "ratio": 0.018
+        },
+        {
+            "Sub_Segment": "😴 장기 휴면 고객",
+            "main_payment_type": "boleto",
+            "count": 2448,
+            "ratio": 0.202
+        },
+        {
+            "Sub_Segment": "😴 장기 휴면 고객",
+            "main_payment_type": "credit_card",
+            "count": 9282,
+            "ratio": 0.764
+        },
+        {
+            "Sub_Segment": "😴 장기 휴면 고객",
+            "main_payment_type": "debit_card",
+            "count": 179,
+            "ratio": 0.015
+        },
+        {
+            "Sub_Segment": "😴 장기 휴면 고객",
+            "main_payment_type": "not_defined",
+            "count": 1,
+            "ratio": 0.0
+        },
+        {
+            "Sub_Segment": "😴 장기 휴면 고객",
+            "main_payment_type": "voucher",
+            "count": 235,
+            "ratio": 0.019
+        },
+        {
+            "Sub_Segment": "🚨 긴급 복구 대상",
+            "main_payment_type": "boleto",
+            "count": 2385,
+            "ratio": 0.202
+        },
+        {
+            "Sub_Segment": "🚨 긴급 복구 대상",
+            "main_payment_type": "credit_card",
+            "count": 9044,
+            "ratio": 0.767
+        },
+        {
+            "Sub_Segment": "🚨 긴급 복구 대상",
+            "main_payment_type": "debit_card",
+            "count": 173,
+            "ratio": 0.015
+        },
+        {
+            "Sub_Segment": "🚨 긴급 복구 대상",
+            "main_payment_type": "voucher",
+            "count": 191,
+            "ratio": 0.016
+        },
+        {
+            "Sub_Segment": "🤔 일반 휴면 고객",
+            "main_payment_type": "boleto",
+            "count": 2397,
+            "ratio": 0.201
+        },
+        {
+            "Sub_Segment": "🤔 일반 휴면 고객",
+            "main_payment_type": "credit_card",
+            "count": 9137,
+            "ratio": 0.764
+        },
+        {
+            "Sub_Segment": "🤔 일반 휴면 고객",
+            "main_payment_type": "debit_card",
+            "count": 172,
+            "ratio": 0.014
+        },
+        {
+            "Sub_Segment": "🤔 일반 휴면 고객",
+            "main_payment_type": "not_defined",
+            "count": 1,
+            "ratio": 0.0
+        },
+        {
+            "Sub_Segment": "🤔 일반 휴면 고객",
+            "main_payment_type": "voucher",
+            "count": 247,
+            "ratio": 0.021
+        },
+        {
+            "Sub_Segment": "🧑 일반 활동 고객",
+            "main_payment_type": "boleto",
+            "count": 2413,
+            "ratio": 0.2
+        },
+        {
+            "Sub_Segment": "🧑 일반 활동 고객",
+            "main_payment_type": "credit_card",
+            "count": 9202,
+            "ratio": 0.764
+        },
+        {
+            "Sub_Segment": "🧑 일반 활동 고객",
+            "main_payment_type": "debit_card",
+            "count": 192,
+            "ratio": 0.016
+        },
+        {
+            "Sub_Segment": "🧑 일반 활동 고객",
+            "main_payment_type": "voucher",
+            "count": 230,
+            "ratio": 0.019
+        }
+    ],
+    "state_summary": [
+        {
+            "customer_state": "AC",
+            "avg_freight_value": 41.44,
+            "avg_delivery_days": 20.11,
+            "avg_review_score": 4.12
+        },
+        {
+            "customer_state": "AL",
+            "avg_freight_value": 36.2,
+            "avg_delivery_days": 24.07,
+            "avg_review_score": 3.76
+        },
+        {
+            "customer_state": "AM",
+            "avg_freight_value": 33.28,
+            "avg_delivery_days": 26.28,
+            "avg_review_score": 4.2
+        },
+        {
+            "customer_state": "AP",
+            "avg_freight_value": 34.97,
+            "avg_delivery_days": 26.87,
+            "avg_review_score": 4.19
+        },
+        {
+            "customer_state": "BA",
+            "avg_freight_value": 26.29,
+            "avg_delivery_days": 18.86,
+            "avg_review_score": 3.86
+        },
+        {
+            "customer_state": "CE",
+            "avg_freight_value": 33.11,
+            "avg_delivery_days": 20.86,
+            "avg_review_score": 3.86
+        },
+        {
+            "customer_state": "DF",
+            "avg_freight_value": 21.37,
+            "avg_delivery_days": 12.43,
+            "avg_review_score": 4.07
+        },
+        {
+            "customer_state": "ES",
+            "avg_freight_value": 22.16,
+            "avg_delivery_days": 15.34,
+            "avg_review_score": 4.03
+        },
+        {
+            "customer_state": "GO",
+            "avg_freight_value": 23.09,
+            "avg_delivery_days": 15.18,
+            "avg_review_score": 4.04
+        },
+        {
+            "customer_state": "MA",
+            "avg_freight_value": 38.17,
+            "avg_delivery_days": 21.16,
+            "avg_review_score": 3.74
+        },
+        {
+            "customer_state": "MG",
+            "avg_freight_value": 20.83,
+            "avg_delivery_days": 11.55,
+            "avg_review_score": 4.13
+        },
+        {
+            "customer_state": "MS",
+            "avg_freight_value": 24.13,
+            "avg_delivery_days": 15.23,
+            "avg_review_score": 4.1
+        },
+        {
+            "customer_state": "MT",
+            "avg_freight_value": 28.54,
+            "avg_delivery_days": 17.61,
+            "avg_review_score": 4.1
+        },
+        {
+            "customer_state": "PA",
+            "avg_freight_value": 36.16,
+            "avg_delivery_days": 23.32,
+            "avg_review_score": 3.85
+        },
+        {
+            "customer_state": "PB",
+            "avg_freight_value": 41.85,
+            "avg_delivery_days": 19.99,
+            "avg_review_score": 4.01
+        },
+        {
+            "customer_state": "PE",
+            "avg_freight_value": 32.88,
+            "avg_delivery_days": 17.99,
+            "avg_review_score": 4.0
+        },
+        {
+            "customer_state": "PI",
+            "avg_freight_value": 39.25,
+            "avg_delivery_days": 19.05,
+            "avg_review_score": 3.9
+        },
+        {
+            "customer_state": "PR",
+            "avg_freight_value": 20.47,
+            "avg_delivery_days": 11.52,
+            "avg_review_score": 4.18
+        },
+        {
+            "customer_state": "RJ",
+            "avg_freight_value": 21.18,
+            "avg_delivery_days": 14.85,
+            "avg_review_score": 3.87
+        },
+        {
+            "customer_state": "RN",
+            "avg_freight_value": 36.67,
+            "avg_delivery_days": 18.92,
+            "avg_review_score": 4.1
+        },
+        {
+            "customer_state": "RO",
+            "avg_freight_value": 42.84,
+            "avg_delivery_days": 18.79,
+            "avg_review_score": 4.09
+        },
+        {
+            "customer_state": "RR",
+            "avg_freight_value": 42.07,
+            "avg_delivery_days": 29.28,
+            "avg_review_score": 3.61
+        },
+        {
+            "customer_state": "RS",
+            "avg_freight_value": 21.99,
+            "avg_delivery_days": 14.81,
+            "avg_review_score": 4.13
+        },
+        {
+            "customer_state": "SC",
+            "avg_freight_value": 21.76,
+            "avg_delivery_days": 14.5,
+            "avg_review_score": 4.07
+        },
+        {
+            "customer_state": "SE",
+            "avg_freight_value": 36.96,
+            "avg_delivery_days": 21.09,
+            "avg_review_score": 3.79
+        },
+        {
+            "customer_state": "SP",
+            "avg_freight_value": 15.32,
+            "avg_delivery_days": 8.3,
+            "avg_review_score": 4.17
+        },
+        {
+            "customer_state": "TO",
+            "avg_freight_value": 37.79,
+            "avg_delivery_days": 17.18,
+            "avg_review_score": 4.11
+        }
+    ],
+    "total_customers": 96096,
+    "total_orders": 99441
+}

@@ -18,10 +18,10 @@ repositories {
 dependencies {
     // Spring Web 프로젝트를 위한 필수 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     // Thymeleaf 템플릿 엔진을 사용하기 위한 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-
+    runtimeOnly 'com.mysql:mysql-connector-j'
     // 테스트를 위한 라이브러리
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
